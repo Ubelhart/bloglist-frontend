@@ -1,0 +1,29 @@
+.error {
+  color: red;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 1em;
+  text-align: center;
+  border: 1px solid red;
+  padding: 0.5em;
+  border-radius: 5px;
+  background-color: rgba(255, 0, 0, 0.2);
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.success {
+  color: green;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 1em;
+  text-align: center;
+  border: 1px solid green;
+  padding: 0.5em;
+  border-radius: 5px;
+  background-color: rgba(0, 255, 0, 0.2);
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
