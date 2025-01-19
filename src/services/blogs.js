@@ -8,7 +8,13 @@ const setToken = (newToken) => {
 }
 
 const getAll = () => {
-  const request = axios.get(baseUrl)
+  const config = {
+    headers: {
+      Authorization: token,
+    },
+  }
+
+  const request = axios.get(baseUrl, config)
   return request.then((response) => response.data)
 }
 
@@ -32,4 +38,14 @@ const update = async (id, newObject) => {
   return response.data
 }
 
-export default { getAll, create, update, setToken }
+const remove = async (id) => {
+  const config = {
+    headers: {
+      Authorization: token,
+    },
+  }
+  const response = await axios.delete(`${baseUrl}/${id}`, config)
+  return response.data
+}
+
+export default { getAll, create, update, setToken, remove }
