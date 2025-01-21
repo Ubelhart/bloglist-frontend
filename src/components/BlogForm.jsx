@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
-import blogService from '../services/blogs'
 
-const BlogForm = ({ blogs, setBlogs, setErrorMessage, setSuccessMessage }) => {
+const BlogForm = ({ addBlog }) => {
   const [newBlog, setNewBlog] = useState({
     title: '',
     author: '',
@@ -19,30 +18,10 @@ const BlogForm = ({ blogs, setBlogs, setErrorMessage, setSuccessMessage }) => {
     }
   }
 
-  const addBlog = async (event) => {
-    event.preventDefault()
-    try {
-      const newBlogToAdd = await blogService.create(newBlog)
-      setNewBlog({ title: '', author: '', url: '', likes: 0 })
-      setBlogs([...blogs, newBlogToAdd])
-      setSuccessMessage(
-        `a new blog ${newBlogToAdd.title} by ${newBlogToAdd.author} added`
-      )
-      setTimeout(() => {
-        setSuccessMessage(null)
-      }, 5000)
-    } catch (exception) {
-      setErrorMessage('Blog already exists or invalid data')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
-    }
-  }
-
   return (
     <div>
       <h2>create a new blog</h2>
-      <form onSubmit={addBlog}>
+      <form onSubmit={(event) => addBlog(event, newBlog, setNewBlog)}>
         <div>
           <input
             name="title"

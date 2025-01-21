@@ -9,6 +9,11 @@ const Blogs = ({ blogs }) => {
     setShowAll(!showAll)
   }
 
+  const handleLikes = async (updatedBlog, setUpdatedBlog, blogService) => {
+    await blogService.update(updatedBlog.id, { likes: updatedBlog.likes + 1 })
+    setUpdatedBlog({ ...updatedBlog, likes: updatedBlog.likes + 1 })
+  }
+
   return (
     <div>
       <h2>blogs</h2>
@@ -19,8 +24,10 @@ const Blogs = ({ blogs }) => {
 
       {showAll
         ? blogs
-          .sort((a, b) => b.likes - a.likes)
-          .map((blog) => <Blog key={blog.id} blog={blog} />)
+            .sort((a, b) => b.likes - a.likes)
+            .map((blog) => (
+              <Blog key={blog.id} blog={blog} handleLikes={handleLikes} />
+            ))
         : blogs.slice(0, 3).map((blog) => <Blog key={blog.id} blog={blog} />)}
     </div>
   )

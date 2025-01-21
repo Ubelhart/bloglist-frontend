@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 import loginService from '../services/login'
+import blogService from '../services/blogs'
 
 const LoginForm = ({ setErrorMessage, setUser }) => {
   const [credentials, setCredentials] = useState({ username: '', password: '' })
@@ -14,10 +15,14 @@ const LoginForm = ({ setErrorMessage, setUser }) => {
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
-      const user = await loginService.login(credentials)
+      const loggedUser = await loginService.login(credentials)
 
-      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
-      setUser(user)
+      window.localStorage.setItem(
+        'loggedBlogappUser',
+        JSON.stringify(loggedUser)
+      )
+      setUser(loggedUser)
+      blogService.setToken(loggedUser.token)
       setCredentials({ username: '', password: '' })
     } catch (exception) {
       setErrorMessage('Wrong username or password')

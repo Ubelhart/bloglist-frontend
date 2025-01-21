@@ -2,7 +2,7 @@ import { useState } from 'react'
 import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, handleLikes }) => {
   const [view, setView] = useState(false)
   const [updatedBlog, setUpdatedBlog] = useState(blog)
 
@@ -16,11 +16,6 @@ const Blog = ({ blog }) => {
 
   const handleView = () => {
     setView(!view)
-  }
-
-  const handleLikes = async () => {
-    await blogService.update(updatedBlog.id, { likes: updatedBlog.likes + 1 })
-    setUpdatedBlog({ ...updatedBlog, likes: updatedBlog.likes + 1 })
   }
 
   const handleDelete = async () => {
@@ -45,7 +40,13 @@ const Blog = ({ blog }) => {
             <li>{updatedBlog.url}</li>
             <li>
               likes: {updatedBlog.likes}
-              <button onClick={handleLikes}>like</button>
+              <button
+                onClick={() =>
+                  handleLikes(updatedBlog, setUpdatedBlog, blogService)
+                }
+              >
+                like
+              </button>
             </li>
             <li>{updatedBlog.author}</li>
             <button onClick={handleDelete}>remove</button>

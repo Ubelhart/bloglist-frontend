@@ -13,19 +13,47 @@ const App = () => {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
+    if (user === null) {
+      return
+    }
+    blogService.getAll().then((blogs) => {
+      setBlogs(blogs)
+    })
+  }, [user])
+
+  useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      blogService.setToken(user.token)
-      blogService.getAll().then((blogs) => setBlogs(blogs))
+      const logeedUser = JSON.parse(loggedUserJSON)
+      setUser(logeedUser)
+      blogService.setToken(logeedUser.token)
     }
-  }, [blogs])
+  }, [])
 
   const handleLoginOut = async (event) => {
     event.preventDefault()
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
+  }
+
+  const addBlog = async (event, newBlog, setNewBlog) => {
+    event.preventDefault()
+    try {
+      const newBlogToAdd = await blogService.create(newBlog)
+      setNewBlog({ title: '', author: '', url: '', likes: 0 })
+      setBlogs([...blogs, newBlogToAdd])
+      setSuccessMessage(
+        `a new blog ${newBlogToAdd.title} by ${newBlogToAdd.author} added`
+      )
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
+    } catch (exception) {
+      setErrorMessage('Blog already exists or invalid data')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
   }
 
   return (
@@ -55,6 +83,7 @@ const App = () => {
               setBlogs={setBlogs}
               setErrorMessage={setErrorMessage}
               setSuccessMessage={setSuccessMessage}
+              addBlog={addBlog}
             />
           </Togglable>
           <Blogs blogs={blogs} />
