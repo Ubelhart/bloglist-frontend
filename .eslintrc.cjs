@@ -3,7 +3,15 @@ module.exports = {
   env: {
     browser: true,
     es2020: true,
-    'vitest/globals': true
+  },
+  globals: {
+    vitest: true,
+    describe: true,
+    test: true,
+    expect: true,
+    beforeEach: true,
+    afterEach: true,
+    vi: true,  // Asegúrate de incluir 'vi' aquí
   },
   extends: [
     'eslint:recommended',
@@ -11,8 +19,19 @@ module.exports = {
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
-  parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
+  ignorePatterns: ['node_modules', 'dist', 'coverage'],
+  parser: '@babel/eslint-parser',
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
+    babelOptions: {
+      plugins: ['@babel/plugin-syntax-jsx'],
+    },
+    requireConfigFile: false,
+  },
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
   rules: {
@@ -28,5 +47,6 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 0,
     'no-unused-vars': 0,
+    'strict': 'off',
   },
-}
+};

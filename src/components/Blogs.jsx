@@ -2,7 +2,7 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import Blog from './Blog'
 
-const Blogs = ({ blogs }) => {
+const Blogs = ({ blogs, user }) => {
   const [showAll, setShowAll] = useState(true)
 
   const handleOnClick = () => {
@@ -26,7 +26,12 @@ const Blogs = ({ blogs }) => {
         ? blogs
             .sort((a, b) => b.likes - a.likes)
             .map((blog) => (
-              <Blog key={blog.id} blog={blog} handleLikes={handleLikes} />
+              <Blog
+                user={user}
+                key={blog.id}
+                blog={blog}
+                handleLikes={handleLikes}
+              />
             ))
         : blogs.slice(0, 3).map((blog) => <Blog key={blog.id} blog={blog} />)}
     </div>

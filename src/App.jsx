@@ -39,8 +39,8 @@ const App = () => {
   const addBlog = async (event, newBlog, setNewBlog) => {
     event.preventDefault()
     try {
-      const newBlogToAdd = await blogService.create(newBlog)
       setNewBlog({ title: '', author: '', url: '', likes: 0 })
+      const newBlogToAdd = await blogService.create(newBlog)
       setBlogs([...blogs, newBlogToAdd])
       setSuccessMessage(
         `a new blog ${newBlogToAdd.title} by ${newBlogToAdd.author} added`
@@ -86,7 +86,7 @@ const App = () => {
               addBlog={addBlog}
             />
           </Togglable>
-          <Blogs blogs={blogs} />
+          <Blogs blogs={blogs} user={user} />
         </div>
       )}
     </div>

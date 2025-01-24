@@ -1,5 +1,5 @@
 node_modules
 dist
 .eslintrc.cjs
-prettier.config.js
+prettier.config.mjs
 vite.config.js
